@@ -1,0 +1,36 @@
+<% layout("layouts/boilerplate") -%>
+<%- include('../partials/navbar.ejs') %>
+<style>
+    .root{
+        padding: 5rem 0;
+        height: 100vh;
+    }
+
+    .input{
+        padding: 1rem 0;
+    }
+
+</style>
+<main class="root">
+    <%- include("../partials/flash.ejs") %>
+    <div class="px-3">
+        <a href="/">
+            <button type="button" class="btn btn-secondary btn-sm">back</button>
+        </a>
+        <form action="/members/create" method="POST">
+            <div class="mt-3">
+                <input class="form-control" type="text" name="name" placeholder="Name" />
+            </div>
+            <div class="mt-3">
+                <input class="form-control" type="text" name="reg" placeholder="Register No." />
+            </div>
+            <div class="mt-3">
+                <input class="form-control" type="text" name="dept" placeholder="Department" />
+            </div>
+            <div class="mt-3">
+                <input class="form-control" type="email" name="email" placeholder="Email" />
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Create Student</button>
+        </form>
+    </div>
+</main>

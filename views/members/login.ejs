@@ -1,0 +1,36 @@
+<% layout("layouts/boilerplate") -%>
+<style>
+
+  .root{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+  }
+
+  .form{
+    position: absolute;
+    top: 30%;
+  }
+
+  /* .logo{
+    height: 300px;
+    width:300px;
+    background-image: url("../../assets/FORESE.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+  } */
+
+</style>
+<section class="w-100 h-100 root">
+  <div class="logo">
+    <h1 class="mt-5">HR VOLUNTEER APP</h1>
+  </div>
+  <div class="form">
+    <form action="/members/login" method="POST">
+      <input type="email" name="email"  class="form-control" placeholder="example@forese.in" />
+      <input type="password" name="password" class="form-control" placeholder="password" />
+      <button class="btn btn-secondary w-100 mt-3" type="submit">Login</button>
+    </form>
+  </div>
+</section>
