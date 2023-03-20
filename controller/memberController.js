@@ -58,16 +58,16 @@ const createStudent = asyncHandler(async(req,res, next) => {
           throw new Error("Please Input All Values")
         }else if(!(/^[A-Za-z]+$/).test(name)){
           throw new Error("Invalid Name")
-        }else if(!(/^[0-9]+$/).test(reg) || !reg.length==13 ){
+        }else if(!(/^[0-9]+$/).test(reg) || reg.length!==13){
           throw new Error("Invalid Registration Number")
-        }else if( !(/@/).test(email)){
+        }else if( !(/@/).test(email) || !email.endsWith("@svce.ac.in")){
           throw new Error("Invalid Email")
         }
 
         const exist = await Student.find({reg});
 
         if(exist && exist.length > 0){
-          req.flash('error', "Student Exists");
+          throw new Error("Student Exists")
           res.redirect("/members/create")
         }else{
           const student = await Student.create({name, email, reg, dept});
@@ -86,12 +86,12 @@ const createStudent = asyncHandler(async(req,res, next) => {
 
 
   const searchStudent = asyncHandler(async(req,res, next) => {
+      // const {reg} = req.body;
       const reg = req.query.reg;
-
     try {
-
-      if(!reg || reg.length<13){
-        throw new Error("Enter valid Registration Number")
+      
+      if(!reg || !reg.length === 13){
+        throw new Error("Enter valid Registration Number");
       }
 
       const student = await Student.find({reg});

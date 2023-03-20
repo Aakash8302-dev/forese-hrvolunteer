@@ -11,26 +11,113 @@
     }
 
 </style>
-<main class="root">
+<main class="root" >
     <%- include("../partials/flash.ejs") %>
     <div class="px-3">
+        <div id="myAlert">  </div>
         <a href="/">
             <button type="button" class="btn btn-secondary btn-sm">back</button>
         </a>
         <form action="/members/create" method="POST">
             <div class="mt-3">
-                <input class="form-control" type="text" name="name" placeholder="Name" />
+                <input class="form-control" type="text" name="name" id="name" placeholder="Name" />
             </div>
             <div class="mt-3">
-                <input class="form-control" type="text" name="reg" placeholder="Register No." />
+                <input class="form-control" type="text" name="reg" id="reg" placeholder="Register No." />
             </div>
             <div class="mt-3">
-                <input class="form-control" type="text" name="dept" placeholder="Department" />
+                <!-- <input class="form-control" type="text" name="dept" placeholder="Department" /> -->
+                <select class="form-select" name="dept" id="dept">
+                    <option selected disabled>Department</option>
+                    <option value="CSE">CSE</option>
+                    <option value="INT">INT</option>
+                    <option value="ADS">ADS</option>
+                    <option value="ECE">ECE</option>
+                    <option value="EEE">EEE</option>
+                    <option value="BIO">BIO</option>
+                    <option value="CHE">CHE</option>
+                    <option value="MEC">MEC</option>
+                    <option value="CVE">CVE</option>
+                    <option value="AUT">AUT</option>
+                   
+                </select>
             </div>
             <div class="mt-3">
-                <input class="form-control" type="email" name="email" placeholder="Email" />
+                <input class="form-control" type="email" name="email" id="email" placeholder="Email" />
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Create Student</button>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Check Values</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div style="font-size: 15px;">
+                        <div id="d_name"></div>
+                        <div id="d_reg"></div>
+                        <div id="d_dept"></div>
+                        <div id="d_email"></div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+            <button id="create_btn" type="button" onclick="validate()" class="btn btn-primary mt-3" >Create Student</button>
         </form>
     </div>
+    <script>
+        function fillValues(){
+            var name = document.getElementById("name").value;
+            var dept = document.getElementById("dept").value;
+            var reg = document.getElementById("reg").value;
+            var email = document.getElementById("email").value;
+
+            document.getElementById("d_name").innerHTML = "Name :" +name;
+            document.getElementById("d_reg").innerHTML = "Reg :" +reg;
+            document.getElementById("d_dept").innerHTML = "Dept :" +dept;
+            document.getElementById("d_email").innerHTML = "Email :" +email;
+        }
+
+        function createAlert(text){
+            var div = document.getElementById('myAlert');
+            div.innerHTML += `<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">${text} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`
+        }
+
+        function validate(){
+            var name = document.getElementById("name").value;
+            var dept = document.getElementById("dept").value;
+            var reg = document.getElementById("reg").value;
+            var email = document.getElementById("email").value;
+
+            try {
+
+                if(!name || !reg || !dept || !email){
+                throw new Error("Please Input All Values")
+                }else if(!(/^[A-Za-z]+$/).test(name)){
+                throw new Error("Invalid Name")
+                }else if(!(/^[0-9]+$/).test(reg) || reg.length!==13){
+                throw new Error("Invalid Registration Number")
+                }else if( !(/@/).test(email) || !email.endsWith("@svce.ac.in")){
+                throw new Error("Invalid Email")
+                }
+
+                $("#myModal").modal("toggle");
+                fillValues();
+
+                } catch (error) {
+                    createAlert(`${error.message}`);
+                }
+
+        }
+
+    </script>
 </main>
